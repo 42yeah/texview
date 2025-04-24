@@ -1361,12 +1361,16 @@ int main(int argc, char** argv)
 	bool wantDebugContext = (glDebugEnv != nullptr && atoi(glDebugEnv) != 0);
 
 	// Create window with graphics context
-	const char* glsl_version = "#version 130"; // for ImGui
+	const char* glsl_version = "#version 330"; // for ImGui
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	if(wantDebugContext) {
 		glfwWindowHint(GLFW_CONTEXT_DEBUG, GLFW_TRUE);
 	}
+#if __APPLE__
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
+
 	glfwWindowHint(GLFW_SRGB_CAPABLE, 1); // FIXME: this doesn't seem to make a difference visually or in behavior?!
 	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindow = glfwCreateWindow(1280, 720, "Texture Viewer", nullptr, nullptr);
